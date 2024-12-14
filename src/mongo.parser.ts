@@ -58,7 +58,7 @@ export class MongoQuery {
     if (this.isCompareOperation(commonFilter)) {
       const field = commonFilter.attrPath;
       const operation = this.compareOperationMapping[commonFilter.op];
-      const comparisionValue = commonFilter.comparisionValue;
+      const comparisionValue = this.changeComparisionValueToArray(commonFilter);
       const mongoCompareOperation: MongoCompareOperation = {
         [field]: { [operation]: comparisionValue },
       };
@@ -66,6 +66,15 @@ export class MongoQuery {
     }
 
     throw new Error("Filter type is invalid");
+  }
+
+  private changeComparisionValueToArray(filter: CompareOperation) {
+    // handling seperate case for in and nin operator by converting the value to array
+    if (["in", "nin"].includes(filter.op)) {
+      // change comparision value to array
+      return filter.comparisionValue.replace(/'/g, "").split(",");
+    }
+    return filter.comparisionValue;
   }
 
   private isCompareOperation(filter: Filter): filter is CompareOperation {

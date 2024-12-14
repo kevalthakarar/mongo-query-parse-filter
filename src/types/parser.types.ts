@@ -2,7 +2,7 @@ import { CompareOperationList } from "../constants";
 
 export type Filter = CompareOperation | FilterOperation;
 
-export type ComparisionValue = string | number | boolean | null;
+export type ComparisionValue = string;
 
 interface Operation {
   op: string;
@@ -10,7 +10,7 @@ interface Operation {
 
 export interface CompareOperation extends Operation {
   attrPath: string;
-  comparisionValue: ComparisionValue | ComparisionValue[];
+  comparisionValue: ComparisionValue;
 }
 
 export type FilterOperation = NotOperation | AndOrOperation;
