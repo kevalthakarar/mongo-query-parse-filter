@@ -19,7 +19,10 @@
     "mongodb"
   ],
   "files": [
-    "dist"
+    "dist",
+    "index.ts",
+    "README.md",
+    "LICENSE"
   ],
   "repository": {
     "type": "git",
