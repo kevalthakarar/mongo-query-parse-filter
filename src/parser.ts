@@ -4,13 +4,7 @@ import {
   PriorityLevel,
   CompareOperationList,
 } from "./constants";
-import {
-  Token,
-  TokenList,
-  Filter,
-  ComparisionValue,
-  FilterOperation,
-} from "./types";
+import { Token, TokenList, Filter, FilterOperation } from "./types";
 
 export class Parser {
   constructor() {}
@@ -97,9 +91,9 @@ export class Parser {
     }
 
     /**
-     * Seperately Handling Neq Case
+     * Seperately Handling not Case
      */
-    if (token.literal.toLowerCase() === "neq") {
+    if (token.literal.toLowerCase() === "not") {
       const notFilter: Filter = {
         op: "not",
         filter: this.parseExpression(tokenList),
@@ -132,7 +126,7 @@ export class Parser {
     }
 
     throw new Error(
-      `Unexpected token ${attrPath} ${newToken.literal} as valFilter operator`
+      `Unexpected token ${attrPath} ${newToken.literal} as value`
     );
   }
 

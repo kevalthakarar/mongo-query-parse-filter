@@ -13,7 +13,14 @@ export interface CompareOperation extends Operation {
   comparisionValue: ComparisionValue | ComparisionValue[];
 }
 
-export interface FilterOperation extends Operation {
-  op: "and" | "or" | "not";
-  filter: Filter | Filter[];
+export type FilterOperation = NotOperation | AndOrOperation;
+
+interface NotOperation extends Operation {
+  op: "not";
+  filter: Filter;
+}
+
+interface AndOrOperation extends Operation {
+  op: "and" | "or";
+  filter: Filter[];
 }
