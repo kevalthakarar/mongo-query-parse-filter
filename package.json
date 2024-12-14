@@ -2,14 +2,30 @@
   "name": "mongo-query-parse-filter",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "eslint": "eslint",
+    "lint": "eslint --fix .",
     "watch": "mocha -r ts-node/register 'test/**/*.ts' 'src/**/*.ts' -w --watch-extensions ts",
     "build": "tsc",
     "test": "npm run build && mocha 'test/**/*.test.js'"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "JIRA Query Language",
+    "SAP SuccessFactors Filter",
+    "Mongo DB Query Builder",
+    "mongo",
+    "mongodb"
+  ],
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevalthakarar/mongo-query-parse-filter"
+  },
+  "author": "Keval Thakarar",
   "license": "ISC",
   "devDependencies": {
     "@eslint/js": "^9.5.0",
