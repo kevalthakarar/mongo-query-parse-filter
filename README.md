@@ -1,68 +1,95 @@
-# mongo-query-parse-filter
+# **Mongo Query Parse Filter**
+
+Lightweight package that allows you to easily convert complex, human-readable query filters into MongoDB-compatible query syntax, supporting logical operations like `AND`, `OR`, `NOT`, `IN`, `NIN` and various comparison operators
 
 
-(email eq "keval@leena.ai")
+-----
 
+## Table of Contents
+
+1. [Installation](#installation)
+2. [Usage](#usage)
+3. [Example](#example)
+
+
+-----
+
+## Installation
+
+
+To install the package, use npm:
+
+```bash
+npm i mongo-query-parse-filter
+```
+
+## Usage
+
+```javascript
+const { MongoQuery } = require('mongo-query-parse-filter');
+
+const mongoQuery = new MongoQuery();
+
+const query = mongoQuery.buildQuery('(email eq "jhon@example.com")')
+
+console.log(query)
+
+```
+#### Result
+
+```json
 {
-    "email" : { "$eq" : "keval@leena.ai"}
+    "email": { "$eq": "jhon@example.com" }
 }
+```
 
-(email eq "keval@leena.ai") and (userName eq "keval")
+## Example
+
+#### eq,neq,gt,gte,lt,lte,regex: `(email regex "(?i)@example.com$")`
+
+```json
 {
-    "op": "and",
-    "filter": [
+    "email": { "$regex": "(?i)@example.com$" }
+}
+```
+
+#### OR/AND: `(email eq "jhon@example.com") or (username eq "alice")`
+```json
+{
+    "$or": [
         {
-            "op": "eq",
-            "attrPath": "email",
-            "comparisionValue": "keval@leena.ai"
+            "email": { "$eq": "jhon@example.com" }
         },
         {
-            "op": "eq",
-            "attrPath": "userName",
-            "comparisionValue": "keval"
+            "username": { "$eq": "alice" }
         }
     ]
 }
+```
 
+#### NOT: `(not ((department eq "Marketing") or (department eq "Sales")))`
+
+to find all employees who are not either in the Marketing or Sales departments
+
+```json
 {
-    $and: [
-        {
-            email : "keval@leena.ai"
-        },
-        {
-            userName : "keval"
-        }
-    ]
-}
-
-
-
-(not ((age gt "30") or (status eq "active")))
-
-{
-    "op": "not",
-    "filter": {
-        "op": "or",
-        "filter": [
+    "$not": {
+        "$or": [
             {
-                "op": "gt",
-                "attrPath": "age",
-                "comparisionValue": "30"
+                "department": { "$eq": "Marketing" }
             },
             {
-                "op": "eq",
-                "attrPath": "status",
-                "comparisionValue": "active"
+                "department": { "$eq": "Sales" }
             }
         ]
     }
 }
+```
 
+#### IN/NIN: `(email in "'alice@example.com','jhon@example.com'")`
+
+```json
 {
-  $not: {
-    $or: [
-      { age: { $gt: 30 } },    // Age greater than 30
-      { status: { $eq: "active" } }  // Status is "active"
-    ]
-  }
+    "email": { "$in": [ "alice@example.com", "jhon@example.com"] }
 }
+```
